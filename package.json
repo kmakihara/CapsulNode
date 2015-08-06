@@ -1,0 +1,14 @@
+{
+  "name": "mongo-server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "*",
+    "jade": "*",
+    "mocha": "^2.2.5",
+    "mongoose": "^4.1.1",
+    "should": "^7.0.2",
+    "supertest": "^1.0.1"
+  }
+}
