@@ -1,19 +1,19 @@
-var http = require('http'),
+/*var http = require('http'),
 	express = require('express'),
 	bodyParser = require('body-parser'),
 	movies = require('./data').array(),
 	Movie = require('./movieSchema'),
 	db = require('./db');
 
-var app = express();
+var app = express();*/
 
 // A simulation of creating new IDs. Basically get the last element and increase the value of an ID.
-function getNewId(){
+exports.findIndexOfElement = function () {
     return movies[movies.length -1].id + 1;
 }
 
 // Function findIndexOfElement helps to identify the array index according to specified key/value pair.
-function findIndexOfElement(inputArray, key, value){
+exports.findIndexOfElement = function (inputArray, key, value) {
     for (var i = 0; i < inputArray.length; i++){
         if (inputArray[i][key] === value){
             return i;
@@ -22,7 +22,7 @@ function findIndexOfElement(inputArray, key, value){
 return -1;
 }
 
-// Use body-parser to help process incoming requests
+/* Use body-parser to help process incoming requests
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
@@ -149,7 +149,7 @@ app.use(function (err, req, res) {
 // Create server
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
-});
+});*/
 
 
 
