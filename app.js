@@ -5,6 +5,7 @@
 		db = require('./db'),
 		bodyParser = require('body-parser'),
 		routes = require('./routes'),
+		morgan = require('morgan'),
 		multer = require('multer');
 
 	var app = express();
@@ -16,6 +17,7 @@
 	app.engine('.html', require('ejs').__express);
 	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(bodyParser.json());
+	app.use(morgan('dev'));
 	app.use('/data', express.static(__dirname + '/writable'));
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'html');
@@ -25,7 +27,8 @@
 	app.post('/upload', routes.postVideo);
 	app.get('/api/movies/watch/:id', routes.watchVideo);
 	app.delete('/api/movies/:id', routes.deleteVideo);
-	// new stuff
+
+	// old stuff
 	/*app.get('/api/movies/', routes.getAll);
 	app.get('/api/movies/:id', routes.getOne);
 	app.post('/api/movies/', routes.post);
