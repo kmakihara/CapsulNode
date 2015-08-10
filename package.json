@@ -5,9 +5,11 @@
   "dependencies": {
     "body-parser": "^1.13.3",
     "express": "*",
+    "gridfs-stream": "^1.1.1",
     "jade": "*",
     "mocha": "^2.2.5",
     "mongoose": "^4.0.0",
+    "multer": "^1.0.3",
     "should": "^7.0.2",
     "supertest": "^1.0.1"
   }

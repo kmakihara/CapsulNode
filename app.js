@@ -4,7 +4,8 @@
 		express = require('express'),
 		db = require('./db'),
 		bodyParser = require('body-parser'),
-		routes = require('./routes');
+		routes = require('./routes'),
+		multer = require('multer');
 
 	var app = express();
 
@@ -12,14 +13,25 @@
 	app.set('port', process.env.PORT || 3000);
 
 	// Use body-parser to help process incoming requests
+	app.engine('.html', require('ejs').__express);
 	app.use(bodyParser.urlencoded({extended: true}));
 	app.use(bodyParser.json());
-
-	app.get('/api/movies/', routes.getAll);
+	app.use('/data', express.static(__dirname + '/writable'));
+	app.set('views', __dirname + '/views');
+	app.set('view engine', 'html');
+	app.use(express.static(__dirname + '/public'));
+	// new stuff
+	app.get('/', function(req, res, next) {res.render('index');});
+	app.post('/upload', routes.postVideo);
+	app.get('/api/movies/watch/:id', routes.watchVideo);
+	app.delete('/api/movies/:id', routes.deleteVideo);
+	// new stuff
+	/*app.get('/api/movies/', routes.getAll);
 	app.get('/api/movies/:id', routes.getOne);
 	app.post('/api/movies/', routes.post);
+	app.post('/api/movies/', routes.postVideo);
 	app.put('/api/movies/:id', routes.put);
-	app.delete('/api/movies/:id', routes.delete);
+	app.delete('/api/movies/:id', routes.delete);*/
 
 	// Use express middleware to handle 404 and 500 errors
 	app.use(function (req, res) {

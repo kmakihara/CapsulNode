@@ -1,10 +1,21 @@
 // Define various routes
 // GET a list of all records
-var movies = require('./data').array(),
-	Movie = require('./movieSchema'),
+var Movie = require('./movieSchema'),
 	index = require('./index');
 
-exports.getAll = function (req, res, next) {
+var mongoose = require('mongoose'),
+	db = require('./db'),
+	Grid = require('gridfs-stream'),
+	fs = require('fs'),
+	path = require('path'),
+	multer = require('multer');
+
+var Schema = mongoose.Schema;
+	Grid.mongo = mongoose.mongo;
+
+var gfs = Grid(db.db);
+
+/*exports.getAll = function (req, res, next) {
 	Movie.find(function (err, movies) {
 		if (err) {
 			next();
@@ -96,5 +107,53 @@ exports.delete = function (req, res, next) {
 		} else {
 			next();
 		}
+	});
+};*/
+
+exports.postVideo = function (req, res, next) {
+	req.pipe(gfs.createWriteStream({
+    filename: 'test'
+  }));
+  res.send("Success!");
+};
+
+exports.watchVideo = function (req, res, next) {
+	gfs.findOne({_id: req.params.id}, function (err, file) {
+		if (err) {
+			return res.status(400).send(err);
+		} else if (!file) {
+			return res.status(404).send(' ');
+		} else {
+			res.header("Content-Type","video/mp4");
+		    res.header("X-Content-Type-Options", "nosniff");
+		    res.header("Accept-Ranges", "bytes");
+		    res.header("Content-Length",file.length);
+
+			var readStream = gfs.createReadStream({_id: file._id});
+			readStream.on('open', function () {
+				console.log('Starting download...');
+			});
+			readStream.on('data', function (chunk) {
+				console.log('Loading...');
+			});
+			readStream.on('end', function () {
+				console.log('Video is ready to play');
+			});
+			readStream.on('error', function (err) {
+				console.log('There was an error with the download' + err);
+				res.end();
+			});
+			readStream.pipe(res);
+		}
+	});
+};
+
+exports.deleteVideo = function(req, res, next) {
+	gfs.remove({_id: req.params.id}, function (err) {
+		if (err) {
+			return res.status(400).send(err);
+		}
+		res.status(200).end;
+		console.log('success');
 	});
 };
