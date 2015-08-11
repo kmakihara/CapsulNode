@@ -6,6 +6,7 @@
 		bodyParser = require('body-parser'),
 		routes = require('./routes'),
 		morgan = require('morgan'),
+		//upload = multer({dest: 'uploads/'}),
 		multer = require('multer');
 
 	var app = express();
@@ -25,16 +26,9 @@
 	// new stuff
 	app.get('/', function(req, res, next) {res.render('index');});
 	app.post('/upload', routes.postVideo);
-	app.get('/api/movies/watch/:id', routes.watchVideo);
+	//app.post('/upload', upload.single('video'), routes.postVideo)
+	app.get('/api/movies/:id', routes.watchVideo);
 	app.delete('/api/movies/:id', routes.deleteVideo);
-
-	// old stuff
-	/*app.get('/api/movies/', routes.getAll);
-	app.get('/api/movies/:id', routes.getOne);
-	app.post('/api/movies/', routes.post);
-	app.post('/api/movies/', routes.postVideo);
-	app.put('/api/movies/:id', routes.put);
-	app.delete('/api/movies/:id', routes.delete);*/
 
 	// Use express middleware to handle 404 and 500 errors
 	app.use(function (req, res) {
