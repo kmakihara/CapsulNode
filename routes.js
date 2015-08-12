@@ -15,6 +15,11 @@ var Schema = mongoose.Schema;
 
 var gfs = Grid(db.db);
 
+exports.postInfo = function (req, res, next) {
+	println(req.params.name);
+	println(req.params.date);
+}
+
 exports.postVideo = function (req, res, next) {
 	req.pipe(gfs.createWriteStream({
 	    filename: 'test',

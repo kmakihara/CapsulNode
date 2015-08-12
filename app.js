@@ -24,9 +24,10 @@
 	app.set('view engine', 'html');
 	app.use(express.static(__dirname + '/public'));
 	// new stuff
-	app.get('/', function(req, res, next) {res.render('index');});
+	app.get('/', function (req, res, next) {res.render('index');});
+	app.get('/hello', function (req, res, next) {res.render('hello');});
+	app.get('/upload', routes.postInfo)
 	app.post('/upload', routes.postVideo);
-	//app.post('/upload', upload.single('video'), routes.postVideo)
 	app.get('/api/movies/:id', routes.watchVideo);
 	app.delete('/api/movies/:id', routes.deleteVideo);
 
